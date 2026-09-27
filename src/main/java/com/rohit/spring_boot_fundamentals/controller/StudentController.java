@@ -24,7 +24,19 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public Student getStudent(@PathVariable int id) {
-        return new Student(id, "Rohit");
+
+        List<Student> students = List.of(
+                new Student(1, "Rohit"),
+                new Student(2, "Amit"),
+                new Student(3, "Priya"));
+
+        for (Student student : students) {
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+
+        return null;
     }
 
 }
