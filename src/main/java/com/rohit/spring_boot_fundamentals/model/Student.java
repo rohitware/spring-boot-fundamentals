@@ -7,24 +7,32 @@ import jakarta.persistence.Id;
 public class Student {
 
     @Id
-    private int id;
+    private Integer id;
 
     private String name;
 
     public Student() {
     }
 
-    public Student(int id, String name) {
+    public Student(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -33,4 +33,14 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public Student updateStudent(int id, Student student) {
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Student not found"));
+
+        existingStudent.setName(student.getName());
+        return studentRepository.save(existingStudent);
+    }
+
 }
