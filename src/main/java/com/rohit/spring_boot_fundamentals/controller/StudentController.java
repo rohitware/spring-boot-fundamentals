@@ -56,6 +56,14 @@ public class StudentController {
         return studentService.searchStudentsByNameIgnoreCase(name);
     }
 
+    @GetMapping("/search/by-id-name")
+    public Student getStudentByIdAndName(
+            @RequestParam Integer id,
+            @RequestParam String name) {
+
+        return studentService.getStudentByIdAndName(id, name);
+    }
+
     @PostMapping
     public Student creatStudent(@RequestBody Student student) {
 

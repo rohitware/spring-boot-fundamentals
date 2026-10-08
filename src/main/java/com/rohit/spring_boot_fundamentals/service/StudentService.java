@@ -38,6 +38,13 @@ public class StudentService {
         return studentRepository.findByNameContainingIgnoreCase(name);
     }
 
+    public Student getStudentByIdAndName(Integer id, String name) {
+        return studentRepository.findByIdAndName(id, name)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Student not found"));
+    }
+
     public Student getStudent(int id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
