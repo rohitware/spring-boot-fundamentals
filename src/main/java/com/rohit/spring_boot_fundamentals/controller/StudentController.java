@@ -1,6 +1,7 @@
 package com.rohit.spring_boot_fundamentals.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rohit.spring_boot_fundamentals.model.Student;
@@ -33,6 +34,26 @@ public class StudentController {
     public Student getStudent(@PathVariable int id) {
 
         return studentService.getStudent(id);
+    }
+
+    @GetMapping("/search")
+    public List<Student> getStudentsByName(@RequestParam String name) {
+        return studentService.getStudentsByName(name);
+    }
+
+    @GetMapping("/search/contains")
+    public List<Student> searchStudentsByName(@RequestParam String name) {
+        return studentService.searchStudentsByName(name);
+    }
+
+    @GetMapping("/search/starts-with")
+    public List<Student> searchStudentsByNameStartingWith(@RequestParam String name) {
+        return studentService.searchStudentsByNameStartingWith(name);
+    }
+
+    @GetMapping("/search/ignore-case")
+    public List<Student> getMsearchStudentsByNameIgnoreCaseethodName(@RequestParam String name) {
+        return studentService.searchStudentsByNameIgnoreCase(name);
     }
 
     @PostMapping

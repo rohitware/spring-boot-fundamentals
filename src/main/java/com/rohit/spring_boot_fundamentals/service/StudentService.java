@@ -22,6 +22,22 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public List<Student> getStudentsByName(String name) {
+        return studentRepository.findByName(name);
+    }
+
+    public List<Student> searchStudentsByName(String name) {
+        return studentRepository.findByNameContaining(name);
+    }
+
+    public List<Student> searchStudentsByNameStartingWith(String name) {
+        return studentRepository.findByNameStartingWith(name);
+    }
+
+    public List<Student> searchStudentsByNameIgnoreCase(String name) {
+        return studentRepository.findByNameContainingIgnoreCase(name);
+    }
+
     public Student getStudent(int id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
