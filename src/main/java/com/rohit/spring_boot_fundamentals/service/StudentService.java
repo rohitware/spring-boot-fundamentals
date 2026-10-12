@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.repository.StudentRepository;
@@ -81,6 +82,18 @@ public class StudentService {
         return new StudentResponseDto(
                 student.getId(),
                 student.getName());
+    }
+
+    public StudentResponseDto createStudent(StudentRequestDto requestDto) {
+
+        Student student = new Student();
+        student.setName(requestDto.getName());
+
+        Student savedStudent = studentRepository.save(student);
+
+        return new StudentResponseDto(
+                savedStudent.getId(),
+                savedStudent.getName());
     }
 
 }

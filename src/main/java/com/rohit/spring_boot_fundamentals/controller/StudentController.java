@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.service.StudentService;
@@ -66,9 +67,9 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student creatStudent(@RequestBody Student student) {
-
-        return studentService.createStudent(student);
+    public StudentResponseDto createStudent(
+            @RequestBody StudentRequestDto requestDto) {
+        return studentService.createStudent(requestDto);
     }
 
     @PutMapping("/{id}")
