@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.repository.StudentRepository;
 
@@ -68,6 +69,18 @@ public class StudentService {
 
     public void deleteStudent(int id) {
         studentRepository.deleteById(id);
+    }
+
+    public StudentResponseDto getStudentResponseById(int id) {
+
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Student not found"));
+
+        return new StudentResponseDto(
+                student.getId(),
+                student.getName());
     }
 
 }

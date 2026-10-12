@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.service.StudentService;
 
@@ -31,9 +32,9 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public Student getStudent(@PathVariable int id) {
+    public StudentResponseDto getStudent(@PathVariable int id) {
 
-        return studentService.getStudent(id);
+        return studentService.getStudentResponseById(id);
     }
 
     @GetMapping("/search")
