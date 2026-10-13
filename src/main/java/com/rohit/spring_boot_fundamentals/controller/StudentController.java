@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
+import com.rohit.spring_boot_fundamentals.dto.StudentUpdateRequestDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.service.StudentService;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import jakarta.validation.Valid;
 
 @RequestMapping("/students")
 @RestController
@@ -28,8 +30,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents() {
-        return studentService.getAllStudents();
+    public List<StudentResponseDto> getStudents() {
+        return studentService.getAllStudentResponses();
     }
 
     @GetMapping("/{id}")
@@ -54,7 +56,8 @@ public class StudentController {
     }
 
     @GetMapping("/search/ignore-case")
-    public List<Student> getMsearchStudentsByNameIgnoreCaseethodName(@RequestParam String name) {
+    public List<Student> searchStudentsByNameIgnoreCase(
+            @RequestParam String name) {
         return studentService.searchStudentsByNameIgnoreCase(name);
     }
 
@@ -68,14 +71,16 @@ public class StudentController {
 
     @PostMapping
     public StudentResponseDto createStudent(
-            @RequestBody StudentRequestDto requestDto) {
+            @Valid @RequestBody StudentRequestDto requestDto) {
         return studentService.createStudent(requestDto);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable int id, @RequestBody Student student) {
+    public StudentResponseDto updateStudent(
+            @PathVariable int id,
+            @Valid @RequestBody StudentUpdateRequestDto requestDto) {
 
-        return studentService.updateStudent(id, student);
+        return studentService.updateStudent(id, requestDto);
     }
 
     @DeleteMapping("/{id}")

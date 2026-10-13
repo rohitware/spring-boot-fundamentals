@@ -10,6 +10,7 @@ import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.repository.StudentRepository;
+import com.rohit.spring_boot_fundamentals.dto.StudentUpdateRequestDto;
 
 @Service
 public class StudentService {
@@ -22,6 +23,16 @@ public class StudentService {
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
+    }
+
+    public List<StudentResponseDto> getAllStudentResponses() {
+
+        return studentRepository.findAll()
+                .stream()
+                .map(student -> new StudentResponseDto(
+                        student.getId(),
+                        student.getName()))
+                .toList();
     }
 
     public List<Student> getStudentsByName(String name) {
@@ -94,6 +105,24 @@ public class StudentService {
         return new StudentResponseDto(
                 savedStudent.getId(),
                 savedStudent.getName());
+    }
+
+    public StudentResponseDto updateStudent(
+            int id,
+            StudentUpdateRequestDto requestDto) {
+
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Student not found"));
+
+        existingStudent.setName(requestDto.getName());
+
+        Student updatedStudent = studentRepository.save(existingStudent);
+
+        return new StudentResponseDto(
+                updatedStudent.getId(),
+                updatedStudent.getName());
     }
 
 }

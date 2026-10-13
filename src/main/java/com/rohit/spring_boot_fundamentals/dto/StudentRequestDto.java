@@ -1,7 +1,10 @@
 package com.rohit.spring_boot_fundamentals.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class StudentRequestDto {
 
+    @NotBlank(message = "Student name cannot be blank")
     private String name;
 
     public StudentRequestDto() {
