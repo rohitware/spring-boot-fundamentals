@@ -76,11 +76,12 @@ public class StudentService {
                 .toList();
     }
 
-    public Student getStudentByIdAndName(Integer id, String name) {
-        return studentRepository.findByIdAndName(id, name)
+    public StudentResponseDto getStudentResponseByIdAndName(Integer id, String name) {
+        Student student = studentRepository.findByIdAndName(id, name)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Student not found"));
+                        HttpStatus.NOT_FOUND, "Student not found"));
+
+        return new StudentResponseDto(student.getId(), student.getName());
     }
 
     public Student getStudent(int id) {

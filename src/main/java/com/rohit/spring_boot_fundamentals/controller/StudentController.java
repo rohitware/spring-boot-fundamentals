@@ -65,11 +65,11 @@ public class StudentController {
     }
 
     @GetMapping("/search/by-id-name")
-    public Student getStudentByIdAndName(
+    public StudentResponseDto getStudentByIdAndName(
             @RequestParam Integer id,
             @RequestParam String name) {
 
-        return studentService.getStudentByIdAndName(id, name);
+        return studentService.getStudentResponseByIdAndName(id, name);
     }
 
     @PostMapping
