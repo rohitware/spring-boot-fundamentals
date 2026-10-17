@@ -39,8 +39,23 @@ public class StudentService {
         return studentRepository.findByName(name);
     }
 
-    public List<Student> searchStudentsByName(String name) {
-        return studentRepository.findByNameContaining(name);
+    public List<StudentResponseDto> getStudentResponsesByName(String name) {
+
+        return studentRepository.findByName(name)
+                .stream()
+                .map(student -> new StudentResponseDto(
+                        student.getId(),
+                        student.getName()))
+                .toList();
+    }
+
+    public List<StudentResponseDto> searchStudentsResponceByName(String name) {
+        return studentRepository.findByNameContaining(name)
+                .stream()
+                .map(student -> new StudentResponseDto(
+                        student.getId(),
+                        student.getName()))
+                .toList();
     }
 
     public List<Student> searchStudentsByNameStartingWith(String name) {

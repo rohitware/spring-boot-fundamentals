@@ -41,13 +41,15 @@ public class StudentController {
     }
 
     @GetMapping("/search")
-    public List<Student> getStudentsByName(@RequestParam String name) {
-        return studentService.getStudentsByName(name);
+    public List<StudentResponseDto> getStudentsByName(
+            @RequestParam String name) {
+        return studentService.getStudentResponsesByName(name);
     }
 
     @GetMapping("/search/contains")
-    public List<Student> searchStudentsByName(@RequestParam String name) {
-        return studentService.searchStudentsByName(name);
+    public List<StudentResponseDto> searchStudentsByName(
+            @RequestParam String name) {
+        return studentService.searchStudentsResponceByName(name);
     }
 
     @GetMapping("/search/starts-with")
