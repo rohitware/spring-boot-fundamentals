@@ -53,14 +53,15 @@ public class StudentController {
     }
 
     @GetMapping("/search/starts-with")
-    public List<Student> searchStudentsByNameStartingWith(@RequestParam String name) {
-        return studentService.searchStudentsByNameStartingWith(name);
+    public List<StudentResponseDto> searchStudentsByNameStartingWith(
+            @RequestParam String name) {
+        return studentService.searchStudentsResponceByNameStartingWith(name);
     }
 
     @GetMapping("/search/ignore-case")
-    public List<Student> searchStudentsByNameIgnoreCase(
+    public List<StudentResponseDto> searchStudentsByNameIgnoreCase(
             @RequestParam String name) {
-        return studentService.searchStudentsByNameIgnoreCase(name);
+        return studentService.searchStudentResponsesByNameIgnoreCase(name);
     }
 
     @GetMapping("/search/by-id-name")

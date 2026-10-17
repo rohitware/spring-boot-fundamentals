@@ -58,12 +58,22 @@ public class StudentService {
                 .toList();
     }
 
-    public List<Student> searchStudentsByNameStartingWith(String name) {
-        return studentRepository.findByNameStartingWith(name);
+    public List<StudentResponseDto> searchStudentsResponceByNameStartingWith(String name) {
+        return studentRepository.findByNameStartingWith(name)
+                .stream()
+                .map(student -> new StudentResponseDto(
+                        student.getId(),
+                        student.getName()))
+                .toList();
     }
 
-    public List<Student> searchStudentsByNameIgnoreCase(String name) {
-        return studentRepository.findByNameContainingIgnoreCase(name);
+    public List<StudentResponseDto> searchStudentResponsesByNameIgnoreCase(String name) {
+        return studentRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(student -> new StudentResponseDto(
+                        student.getId(),
+                        student.getName()))
+                .toList();
     }
 
     public Student getStudentByIdAndName(Integer id, String name) {
