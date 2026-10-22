@@ -15,140 +15,111 @@ import com.rohit.spring_boot_fundamentals.dto.StudentUpdateRequestDto;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
+        private final StudentRepository studentRepository;
 
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+        public StudentService(StudentRepository studentRepository) {
+                this.studentRepository = studentRepository;
+        }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
-    }
+        public List<StudentResponseDto> getAllStudentResponses() {
 
-    public List<StudentResponseDto> getAllStudentResponses() {
+                return studentRepository.findAll()
+                                .stream()
+                                .map(student -> new StudentResponseDto(
+                                                student.getId(),
+                                                student.getName()))
+                                .toList();
+        }
 
-        return studentRepository.findAll()
-                .stream()
-                .map(student -> new StudentResponseDto(
-                        student.getId(),
-                        student.getName()))
-                .toList();
-    }
+        public List<StudentResponseDto> getStudentResponsesByName(String name) {
 
-    public List<Student> getStudentsByName(String name) {
-        return studentRepository.findByName(name);
-    }
+                return studentRepository.findByName(name)
+                                .stream()
+                                .map(student -> new StudentResponseDto(
+                                                student.getId(),
+                                                student.getName()))
+                                .toList();
+        }
 
-    public List<StudentResponseDto> getStudentResponsesByName(String name) {
+        public List<StudentResponseDto> searchStudentResponsesByName(String name) {
+                return studentRepository.findByNameContaining(name)
+                                .stream()
+                                .map(student -> new StudentResponseDto(
+                                                student.getId(),
+                                                student.getName()))
+                                .toList();
+        }
 
-        return studentRepository.findByName(name)
-                .stream()
-                .map(student -> new StudentResponseDto(
-                        student.getId(),
-                        student.getName()))
-                .toList();
-    }
+        public List<StudentResponseDto> searchStudentResponsesByNameStartingWith(String name) {
+                return studentRepository.findByNameStartingWith(name)
+                                .stream()
+                                .map(student -> new StudentResponseDto(
+                                                student.getId(),
+                                                student.getName()))
+                                .toList();
+        }
 
-    public List<StudentResponseDto> searchStudentsResponceByName(String name) {
-        return studentRepository.findByNameContaining(name)
-                .stream()
-                .map(student -> new StudentResponseDto(
-                        student.getId(),
-                        student.getName()))
-                .toList();
-    }
+        public List<StudentResponseDto> searchStudentResponsesByNameIgnoreCase(String name) {
+                return studentRepository.findByNameContainingIgnoreCase(name)
+                                .stream()
+                                .map(student -> new StudentResponseDto(
+                                                student.getId(),
+                                                student.getName()))
+                                .toList();
+        }
 
-    public List<StudentResponseDto> searchStudentsResponceByNameStartingWith(String name) {
-        return studentRepository.findByNameStartingWith(name)
-                .stream()
-                .map(student -> new StudentResponseDto(
-                        student.getId(),
-                        student.getName()))
-                .toList();
-    }
+        public StudentResponseDto getStudentResponseByIdAndName(Integer id, String name) {
+                Student student = studentRepository.findByIdAndName(id, name)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "Student not found"));
 
-    public List<StudentResponseDto> searchStudentResponsesByNameIgnoreCase(String name) {
-        return studentRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(student -> new StudentResponseDto(
-                        student.getId(),
-                        student.getName()))
-                .toList();
-    }
+                return new StudentResponseDto(student.getId(), student.getName());
+        }
 
-    public StudentResponseDto getStudentResponseByIdAndName(Integer id, String name) {
-        Student student = studentRepository.findByIdAndName(id, name)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Student not found"));
+        public void deleteStudent(int id) {
+                studentRepository.deleteById(id);
+        }
 
-        return new StudentResponseDto(student.getId(), student.getName());
-    }
+        public StudentResponseDto getStudentResponseById(int id) {
 
-    public Student getStudent(int id) {
-        return studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Student not found"));
-    }
+                Student student = studentRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND,
+                                                "Student not found"));
 
-    public Student createStudent(Student student) {
-        return studentRepository.save(student);
-    }
+                return new StudentResponseDto(
+                                student.getId(),
+                                student.getName());
+        }
 
-    public Student updateStudent(int id, Student student) {
-        Student existingStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Student not found"));
+        public StudentResponseDto createStudent(StudentRequestDto requestDto) {
 
-        existingStudent.setName(student.getName());
-        return studentRepository.save(existingStudent);
-    }
+                Student student = new Student();
+                student.setName(requestDto.getName());
 
-    public void deleteStudent(int id) {
-        studentRepository.deleteById(id);
-    }
+                Student savedStudent = studentRepository.save(student);
 
-    public StudentResponseDto getStudentResponseById(int id) {
+                return new StudentResponseDto(
+                                savedStudent.getId(),
+                                savedStudent.getName());
+        }
 
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Student not found"));
+        public StudentResponseDto updateStudent(
+                        int id,
+                        StudentUpdateRequestDto requestDto) {
 
-        return new StudentResponseDto(
-                student.getId(),
-                student.getName());
-    }
+                Student existingStudent = studentRepository.findById(id)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND,
+                                                "Student not found"));
 
-    public StudentResponseDto createStudent(StudentRequestDto requestDto) {
+                existingStudent.setName(requestDto.getName());
 
-        Student student = new Student();
-        student.setName(requestDto.getName());
+                Student updatedStudent = studentRepository.save(existingStudent);
 
-        Student savedStudent = studentRepository.save(student);
-
-        return new StudentResponseDto(
-                savedStudent.getId(),
-                savedStudent.getName());
-    }
-
-    public StudentResponseDto updateStudent(
-            int id,
-            StudentUpdateRequestDto requestDto) {
-
-        Student existingStudent = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Student not found"));
-
-        existingStudent.setName(requestDto.getName());
-
-        Student updatedStudent = studentRepository.save(existingStudent);
-
-        return new StudentResponseDto(
-                updatedStudent.getId(),
-                updatedStudent.getName());
-    }
+                return new StudentResponseDto(
+                                updatedStudent.getId(),
+                                updatedStudent.getName());
+        }
 
 }

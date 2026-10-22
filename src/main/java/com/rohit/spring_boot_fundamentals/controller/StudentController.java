@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentUpdateRequestDto;
-import com.rohit.spring_boot_fundamentals.model.Student;
 import com.rohit.spring_boot_fundamentals.service.StudentService;
 
 import java.util.List;
@@ -49,13 +48,13 @@ public class StudentController {
     @GetMapping("/search/contains")
     public List<StudentResponseDto> searchStudentsByName(
             @RequestParam String name) {
-        return studentService.searchStudentsResponceByName(name);
+        return studentService.searchStudentResponsesByName(name);
     }
 
     @GetMapping("/search/starts-with")
     public List<StudentResponseDto> searchStudentsByNameStartingWith(
             @RequestParam String name) {
-        return studentService.searchStudentsResponceByNameStartingWith(name);
+        return studentService.searchStudentResponsesByNameStartingWith(name);
     }
 
     @GetMapping("/search/ignore-case")
