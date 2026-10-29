@@ -81,11 +81,11 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public StudentResponseDto updateStudent(
+    public ResponseEntity<StudentResponseDto> updateStudent(
             @PathVariable int id,
             @Valid @RequestBody StudentUpdateRequestDto requestDto) {
 
-        return studentService.updateStudent(id, requestDto);
+        return ResponseEntity.ok(studentService.updateStudent(id, requestDto));
     }
 
     @DeleteMapping("/{id}")
