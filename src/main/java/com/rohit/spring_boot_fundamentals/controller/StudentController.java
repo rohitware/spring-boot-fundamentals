@@ -3,6 +3,8 @@ package com.rohit.spring_boot_fundamentals.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.rohit.spring_boot_fundamentals.dto.StudentRequestDto;
 import com.rohit.spring_boot_fundamentals.dto.StudentResponseDto;
@@ -72,9 +74,10 @@ public class StudentController {
     }
 
     @PostMapping
-    public StudentResponseDto createStudent(
+    public ResponseEntity<StudentResponseDto> createStudent(
             @Valid @RequestBody StudentRequestDto requestDto) {
-        return studentService.createStudent(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(studentService.createStudent(requestDto));
     }
 
     @PutMapping("/{id}")
@@ -86,8 +89,9 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable int id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable int id) {
         studentService.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

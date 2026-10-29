@@ -77,6 +77,10 @@ public class StudentService {
         }
 
         public void deleteStudent(int id) {
+                if (!studentRepository.existsById(id)) {
+                        throw new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND, "Student not found");
+                }
                 studentRepository.deleteById(id);
         }
 
